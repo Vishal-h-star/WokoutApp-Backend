@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require("express");
+const cors =  require('cors')
 
 const {workoutRoute , userRoute} = require('./routes')
 const Dbconnection = require('./DbconnectionFile')
@@ -9,6 +10,9 @@ const app = express()
 const PORT = process.env.PORT || 4000;
 
 app.use(express.json())
+app.use(cors({
+   origin:"*"
+}));
 
 
 app.use((req, res, next) => {
