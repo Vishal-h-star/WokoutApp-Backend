@@ -3,9 +3,11 @@ const { workoutModel } = require("../Models");
 const mongoose = require("mongoose");
 // get all workouts
 exports.getAllworkouts = async (req, res) => {
-   const user_id = req.user._id
+  const user_id = req.user._id;
   try {
-    const workouts = await workoutModel.find({user_id}).sort({ createdAt: -1 });
+    const workouts = await workoutModel
+      .find({ user_id })
+      .sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
       data: workouts,
@@ -74,6 +76,11 @@ exports.addNewWorkout = async (req, res) => {
   }
 };
 
+// exports.updateWorkout = async (req,res) =>{
+//     const id = req.params.id
+//    res.stats(200).send("Working", id)
+// }
+
 // delete a workout by its id
 exports.deleteWorkout = async (req, res) => {
   const id = req.params.id;
@@ -119,4 +126,24 @@ exports.updateworkout = async (req, res) => {
     message: "workout is updated",
     data: workout,
   });
+};
+
+exports.updateStatus = async (req, res) => {
+  const id = req.params.id;
+  const { data } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Id is wrong" });
+  }
+
+    const workout = await  workoutModel.findByIdAndUpdate({_id:id} , data , {new: true});
+
+    if(!workout){
+       return res.status(404).json({error: "No such workout by this id"})
+    }
+
+    res.status(200).json({
+      success:true,
+      workout,
+    })
 };

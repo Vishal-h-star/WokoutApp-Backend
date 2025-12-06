@@ -8,6 +8,7 @@ const {
   getWorkoutById,
   deleteWorkout,
   updateworkout,
+  updateStatus,
 } = require("../Controllers/workoutController");
 
 const router = express.Router();
@@ -62,6 +63,8 @@ router.delete("/:id", deleteWorkout);
  *  parameters -> id
  */
 
-router.patch("/:id", updateworkout);
+router.put("/:id", updateworkout);
+
+router.patch('/:id/status' , updateStatus )
 
 module.exports = router;
