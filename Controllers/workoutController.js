@@ -7,7 +7,7 @@ exports.getAllworkouts = async (req, res) => {
   try {
     const workouts = await workoutModel
       .find({ user_id })
-      .sort({ createdAt: -1 });
+      .sort({ status:-1 , createdAt: -1 });
     res.status(200).json({
       success: true,
       data: workouts,
